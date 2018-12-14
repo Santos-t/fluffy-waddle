@@ -26,7 +26,7 @@ class SantostPlayer extends Player
 
     public function getChoice()
     {
-        $gangDuT9 = array('Paultato', 'Mattiasshell', 'Vcollette');
+        $gangDuT9 = array('Paultato', 'Mattiashell', 'Vcollette');
         $nbRound = $this->result->getNbRound();
         $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
         if ($this->result->getNbRound() === 9 )
