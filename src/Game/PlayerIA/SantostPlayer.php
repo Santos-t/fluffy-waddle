@@ -28,7 +28,7 @@ class SantostPlayer extends Player
     {
         //Salut Robin ! Bonne correction
 
-        //Quelque variables pour faciliter l'écriture et la lecture du code
+        //Quelques variables pour faciliter l'écriture et la lecture du code
         $gangDuT9 = array('Paultato', 'Mattiashell', 'Vcollette', 'Neosia67');
         $nbRound = $this->result->getNbRound();
         $oppStats = $this->result->getStatsFor($this->opponentSide);
@@ -37,14 +37,14 @@ class SantostPlayer extends Player
 
 
         //Stratégie du Gang du T9
-        if ($this->result->getNbRound() === 9 )
+        if ($this->result->getNbRound() === 99 )
         {
             if (in_array($oppName, $gangDuT9))
                 return parent::friendChoice();
             return parent::foeChoice();
         }
 
-        // Au début on est gentil quand même
+        //Au début on est gentil quand même
         if ($nbRound === 0)
             return parent::friendChoice();
 
@@ -52,10 +52,13 @@ class SantostPlayer extends Player
         else if ($nbRound == 1)
             return $this->result->getLastChoiceFor($this->opponentSide);
 
-        // Tour 2 et plus
+        //Tour 2 et plus
+
+        //Je suis mauvais perdant ...
         if ($oppStats['score'] > $myStats['score'])
             return parent::foeChoice();
 
+        //Si j'ai appris un truc au lycée c'est que quand on sait pas on copie ...
         return $this->result->getLastChoiceFor($this->opponentSide);
 
 
