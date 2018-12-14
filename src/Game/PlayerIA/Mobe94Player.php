@@ -1,65 +1,24 @@
 <?php
-
 namespace Hackathon\PlayerIA;
-
 use Hackathon\Game\Result;
-
 /**
- * Class SantostPlayer
+ * Class LovePlayer
  * @package Hackathon\PlayerIA
- * @author Santos Theo
+ * @author FlorentD
  */
-class SantostPlayer extends Player
+class Mobe94Player extends Player
 {
     protected $mySide;
     protected $opponentSide;
     protected $result;
-
-    public function getOpositeChoice()
-    {
-        if ($this->result->getLastChoiceFor($this->opponentSide) == parrent::friendChoice)
-            return parent::foeChoice;
-        else return parent::friendChoice;
-    }
-
-
-
+    private $mylastscore = 0;
+    private $hislastscore = 0;
+    private $hisscore;
+    private $myscore;
+    private $heisbad;
+    private $imbad;
     public function getChoice()
     {
-        //Salut Robin ! Bonne correction
-
-        //Quelque variables pour faciliter l'écriture et la lecture du code
-        $gangDuT9 = array('Paultato', 'Mattiashell', 'Vcollette', 'Neosia67');
-        $nbRound = $this->result->getNbRound();
-        $oppStats = $this->result->getStatsFor($this->opponentSide);
-        $myStats = $this->result->getStatsFor($this->mySide);
-        $oppName = $oppStats['name'];
-
-
-        //Stratégie du Gang du T9
-        if ($this->result->getNbRound() === 9 )
-        {
-            if (in_array($oppName, $gangDuT9))
-                return parent::friendChoice();
-            return parent::foeChoice();
-        }
-
-        // Au début on est gentil quand même
-        if ($nbRound === 0)
-            return parent::friendChoice();
-
-        //Au tour 1 on copie l'adversaire
-        else if ($nbRound == 1)
-            return $this->result->getLastChoiceFor($this->opponentSide);
-
-        // Tour 2 et plus
-        if ($oppStats['score'] > $myStats['score'])
-            return parent::foeChoice();
-
-        return $this->result->getLastChoiceFor($this->opponentSide);
-
-
-
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
         // How to get the opponent Last Choice ?    $this->result->getLastChoiceFor($this->opponentSide) -- if 0 (first round)
@@ -83,7 +42,21 @@ class SantostPlayer extends Player
         // -------------------------------------    -----------------------------------------------------
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
-
+        if ($this->result->getNbRound() == 0)
+            return parent::friendChoice();
+        else {
+            $this->hislastscore = $this->result->getLastScoreFor($this->opponentSide);
+            $this->mylastscore = $this->result->getLastScoreFor($this->mySide);
+            if ($this->result->getLastChoiceFor($this->opponentSide) == "foe")
+                $this->heisbad = true;
+            else
+                $this->heisbad = false;
+            if ($this->hisscore > $this->hislastscore)
+                return parent::foeChoice();
+            else if ($this->hisscore == $this->hislastscore)
+                return parent::friendChoice();
+            else
+                return parent::foeChoice();
+        }
     }
-
-};
+}
