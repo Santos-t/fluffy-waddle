@@ -22,15 +22,26 @@ class SantostPlayer extends Player
         else return parent::friendChoice;
     }
 
+
+
     public function getChoice()
     {
-        if ($this->result->getNbRound() == 0)
+        $gangDuT9 = array('Paultato', 'Mattiasshell', 'Vcollette');
+        $nbRound = $this->result->getNbRound();
+        $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
+        if ($this->result->getNbRound() === 9 )
+        {
+            if (in_array($opName, $gangDuT9))
+                return parrent::friendChoice();
+            return parent::foeChoice();
+        }
+
+        if ($nbRound == 0)
             return parent::friendChoice();
-        else if ($this->result->getNbRound() == 1)
+        else if ($nbRound == 1)
             return $this->result->getLastChoiceFor($this->opponentSide);
         // Round 2 and more
-        if ($this->result->getNbRound() == 9)
-            return parent::foeChoice();
+
 
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
