@@ -29,10 +29,12 @@ class SantostPlayer extends Player
         $gangDuT9 = array('Paultato', 'Mattiashell', 'Vcollette');
         $nbRound = $this->result->getNbRound();
         $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
+
+        //Gang T9 strat
         if ($this->result->getNbRound() === 9 )
         {
-            if (in_array($opName, $gangDuT9))
-                return parrent::friendChoice();
+            if (in_array($oppName, $gangDuT9))
+                return parent::friendChoice();
             return parent::foeChoice();
         }
 
