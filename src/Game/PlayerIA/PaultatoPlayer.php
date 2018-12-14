@@ -1,54 +1,18 @@
 <?php
-
 namespace Hackathon\PlayerIA;
-
 use Hackathon\Game\Result;
-
 /**
- * Class SantostPlayer
+ * Class LovePlayer
  * @package Hackathon\PlayerIA
- * @author Santost
+ * @author PaulB
  */
-class SantostPlayer extends Player
+class PaultatoPlayer extends Player
 {
     protected $mySide;
     protected $opponentSide;
     protected $result;
-
-    public function getOpositeChoice()
-    {
-        if ($this->result->getLastChoiceFor($this->opponentSide) == parrent::friendChoice)
-            return parent::foeChoice;
-        else return parent::friendChoice;
-    }
-
-
-
     public function getChoice()
     {
-        $gangDuT9 = array('Paultato', 'Mattiashell', 'Vcollette', 'Neosia67');
-        $nbRound = $this->result->getNbRound();
-        $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
-
-        //Stratégie du Gang du T9
-        if ($this->result->getNbRound() === 9 )
-        {
-            if (in_array($oppName, $gangDuT9))
-                return parent::friendChoice();
-            return parent::foeChoice();
-        }
-
-        // Au début on est gentil quand même
-        if ($nbRound === 0)
-            return parent::friendChoice();
-
-        //Au tour 1 on copie l'adversaire
-        else if ($nbRound == 1)
-            return $this->result->getLastChoiceFor($this->opponentSide);
-
-        // Tour 2 et plus
-        return $this->result->getLastChoiceFor($this->opponentSide);
-
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
         // How to get the opponent Last Choice ?    $this->result->getLastChoiceFor($this->opponentSide) -- if 0 (first round)
@@ -73,6 +37,31 @@ class SantostPlayer extends Player
         // How can i display the result of each round ? $this->prettyDisplay()
         // -------------------------------------    -----------------------------------------------------
 
+        // Coucou Robin j'espère ta correction se passe bien et que tu me mettras 20 MERCI
+
+        $nbRound = $this->result->getNbRound();
+        // La famille TMTC
+        $gangDuT9 = array('Santost', 'Mattiashell', 'Vcollette', 'Neosia67');
+        // On apprend le nom de l'adversaire et si c'est pas la famille je le brise
+        $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
+        // Le score de l'adversaire pour savoir si il est mieux que moi et le tacler après il va voir flou
+        $oppScore = $this->result->getStatsFor($this->opponentSide)['score'];
+        // Mon score de bon codeur qui documente beaucoup le code
+        $myScore = $this->result->getStatsFor($this->mySide)['score'];
+        // On régale la famille TMTC
+        if ($nbRound === 9) {
+            if (in_array($oppName, $gangDuT9))
+                return parent::friendChoice();
+            return parent::foeChoice();
+        }
+        if ($myScore < $oppScore)
+            return parent::foeChoice();
+        if ($nbRound != 0) {
+            $foePercent = $this->result->getStatsFor($this->opponentSide)['foe'] / $nbRound;
+            if ($foePercent > 0.5)
+                return parent::foeChoice();
+        }
+        return parent::friendChoice();
     }
 
 };

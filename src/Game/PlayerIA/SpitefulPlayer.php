@@ -9,25 +9,23 @@ use Hackathon\Game\Result;
  * @package Hackathon\PlayerIA
  * @author FlorentD
  */
-class Best3Player extends Player
+class SpitefulPlayer extends Player
 {
     protected $mySide;
     protected $opponentSide;
     protected $result;
 
-    public function getOpositeChoice()
-    {
-      if ($this->result->getLastChoiceFor($this->opponentSide) == parrent::friendChoice)
-        return parent::foeChoice;
-      else return parent::friendChoice;
-    }
-
     public function getChoice()
     {
-      if ($this->result->getNbRound() == 0)
-        return parent::friendChoice();
-      else
-        return $this->result->getLastChoiceFor($this->opponentSide);
+      $nbRound = $this->result->getNbRound();
+      $oppName = $this->result->getStatsFor($this->opponentSide)['name'];
+      $foeNb = $this->result->getStatsFor($this->opponentSide)['foe'];
+
+      if ($nbRound === 0)
+          return parent::friendChoice();
+      if ($foeNb > 0)
+          return parent::foeChoice();
+      return parent::friendChoice();
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
         // How to get the opponent Last Choice ?    $this->result->getLastChoiceFor($this->opponentSide) -- if 0 (first round)
