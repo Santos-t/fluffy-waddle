@@ -5,9 +5,9 @@ namespace Hackathon\PlayerIA;
 use Hackathon\Game\Result;
 
 /**
- * Class LovePlayer
+ * Class SantostPlayer
  * @package Hackathon\PlayerIA
- * @author FlorentD
+ * @author Santost
  */
 class SantostPlayer extends Player
 {
@@ -29,7 +29,8 @@ class SantostPlayer extends Player
         else if ($this->result->getNbRound() == 1)
             return $this->result->getLastChoiceFor($this->opponentSide);
         // Round 2 and more
-        if ()
+        if ($this->result->getNbRound() == 9)
+            return parent::foeChoice();
 
         // -------------------------------------    -----------------------------------------------------
         // How to get my Last Choice           ?    $this->result->getLastChoiceFor($this->mySide) -- if 0 (first round)
